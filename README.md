@@ -33,7 +33,7 @@ Proyek ini dikembangkan sebagai bagian dari Tugas Kelompok_8 DevOps oleh mahasis
 | Frontend Styling  | Bootstrap 5, Bootstrap Icons                      |
 | API Jadwal Sholat | [Aladhan API](https://aladhan.com)                |
 | API Lokasi        | [Nominatim OpenStreetMap](https://nominatim.org/) |
-| CI/CD             | GitHub Actions + Azure Web App                    |
+| CI/CD             | GitHub Actions                                    |
 | Containerization  | Docker + Azure Container Registry                 |
 | Hosting           | Azure Web App for Containers                      |
 | Monitoring (Ops)  | Azure Application Insights (opsional)             |
