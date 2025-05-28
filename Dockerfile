@@ -17,3 +17,6 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /e
 
 # Set permissions (optional)
 RUN chown -R www-data:www-data /var/www/html
+
+# Menghilangkan warning
+RUN echo "ServerName praytimenow.onrender.com" >> /etc/apache2/apache2.conf
