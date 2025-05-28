@@ -21,8 +21,3 @@ jobs:
 
       - name: Validate Laravel Installation
         run: php artisan --version
-
-      - name: Run Migrations (optional)
-        run: |
-          touch database/database.sqlite
-          php artisan migrate --force
