@@ -11,10 +11,18 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Install Composer dan Dependencies Laravel
+ARG APP_ENV=production
+ENV APP_ENV=${APP_ENV}
 RUN apt-get update && apt-get install -y unzip git \
     && curl -sS https://getcomposer.org/installer | php \
-    && mv composer.phar /usr/local/bin/composer \
-    && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+    && mv composer.phar /usr/local/bin/composer
+
+RUN if [ "$APP_ENV" = "production" ]; then \
+      composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader ; \
+    else \
+      composer install --no-interaction --prefer-dist ; \
+    fi
+
 
 # Change DocumentRoot to /var/www/html/public
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
@@ -22,3 +30,5 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /e
 RUN chown -R www-data:www-data /var/www/html
 # Menghilangkan warning
 RUN echo "ServerName praytimenow.onrender.com" >> /etc/apache2/apache2.conf
+
+RUN php artisan config:cache && php artisan route:cache
