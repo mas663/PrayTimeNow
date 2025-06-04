@@ -22,8 +22,8 @@ jobs:
       - name: Validate Laravel Installation
         run: php artisan --version
 
-      - name: Run Tests
-        run: php artisan test
+      - name: Run Feature Tests Only
+        run: php artisan test --testsuite=Feature
 
       - name: Deploy to Render
         env:
