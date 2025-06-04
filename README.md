@@ -37,3 +37,5 @@ Proyek ini dikembangkan sebagai bagian dari Tugas Kelompok_8 DevOps oleh mahasis
 | Containerization  | Docker + Azure Container Registry                 |
 | Hosting           | Azure Web App for Containers                      |
 | Monitoring (Ops)  | Azure Application Insights (opsional)             |
+
+Commit: Test AutoDeploy
