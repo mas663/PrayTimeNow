@@ -4,7 +4,9 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/*.log
 /storage/pail
+/storage/framework/*
 /vendor
 .env
 .env.testing
