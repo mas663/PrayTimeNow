@@ -37,11 +37,6 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /e
 # Menghilangkan warning apache
 RUN echo "ServerName praytimenow.onrender.com" >> /etc/apache2/apache2.conf
 
-# Jalankan perintah artisan SETELAH vendor terinstal
-RUN php artisan config:clear && \
-    php artisan cache:clear && \
-    php artisan route:clear && \
-    php artisan config:cache && \
-    php artisan route:cache
+CMD ["apache2-foreground"]
 
 EXPOSE 80
