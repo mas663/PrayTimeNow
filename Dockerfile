@@ -28,7 +28,7 @@ RUN if [ "$APP_ENV" = "production" ]; then \
     fi
 
 # Set permissions
-RUN chown -R www-data:www-data /var/www/html \
+RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Change DocumentRoot to /var/www/html/public
