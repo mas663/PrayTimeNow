@@ -192,7 +192,7 @@
         </div>
 
         <!-- Judul -->
-        <h1 class="display-5 fw-bold">🕌 PrayTimeNow</h1>
+        <h1 class="display-5 fw-bold">🕌 PrayTime</h1>
         <p class="lead">Cek Jadwal Sholat Akurat Berdasarkan Lokasi dan Tanggal</p>
     </div>
 
