@@ -1,41 +1,86 @@
-# 🕌 PrayTimeNow
+# PrayTimeNow
 
-**PrayTimeNow** adalah aplikasi web ringan berbasis Laravel yang memungkinkan pengguna untuk mengecek **jadwal sholat** berdasarkan **lokasi** dan **tanggal** tanpa perlu login, instalasi, atau akses GPS.
-
----
-
-## Fitur Utama
-
--   Input nama kota dan tanggal secara manual
--   Ambil data real-time dari API eksternal:
-    -   [Aladhan API](https://aladhan.com/prayer-times-api) untuk jadwal sholat
-    -   [Nominatim (OpenStreetMap)](https://nominatim.org/) untuk konversi kota → koordinat
--   Tampilkan 5 waktu sholat wajib (Subuh, Dzuhur, Ashar, Maghrib, Isya)
--   Desain web responsif
--   Tanpa database & login
--   Mendukung CI/CD deployment via Azure
+Aplikasi web ringan untuk menampilkan jadwal sholat harian berdasarkan lokasi dan tanggal input, tanpa login, instalasi, atau GPS. Dibangun dengan Laravel dan Bootstrap, serta didukung CI/CD pipeline menggunakan GitHub Actions dan Docker, serta di-deploy secara otomatis ke [Render](https://praytimenow.onrender.com/).
 
 ---
 
-## Motivasi Proyek
+## 🔧 Tools & Teknologi
 
-Proyek ini dikembangkan sebagai bagian dari Tugas Kelompok_8 DevOps oleh mahasiswa ITS, dengan tujuan:
+-   **Laravel 10+** (backend framework)
+-   **Bootstrap 5** (frontend UI)
+-   **Docker** (containerization)
+-   **GitHub Actions** (CI/CD automation)
+-   **Render.com** (deployment hosting)
+-   **PHPUnit** (unit testing)
+-   **API:**
+    -   [Aladhan API](https://aladhan.com/prayer-times-api) – untuk jadwal sholat
+    -   [Nominatim API](https://nominatim.org/) – untuk geocoding lokasi input
 
--   Memudahkan umat muslim mengakses jadwal sholat yang akurat dan cepat
--   Menerapkan praktik DevOps (CI/CD) pada proyek sederhana berbasis Laravel
--   Membuat aplikasi yang ringan, ramah pengguna, dan tidak memerlukan login
+---
 
-## Teknologi yang Digunakan
+## 🚀 Alur CI/CD Pipeline
 
-| Komponen          | Tools / Library                                   |
-| ----------------- | ------------------------------------------------- |
-| Backend           | Laravel 12                                        |
-| Frontend Styling  | Bootstrap 5, Bootstrap Icons                      |
-| API Jadwal Sholat | [Aladhan API](https://aladhan.com)                |
-| API Lokasi        | [Nominatim OpenStreetMap](https://nominatim.org/) |
-| CI/CD             | GitHub Actions                                    |
-| Containerization  | Docker + Azure Container Registry                 |
-| Hosting           | Azure Web App for Containers                      |
-| Monitoring (Ops)  | Azure Application Insights (opsional)             |
+CI/CD pipeline dikelola menggunakan **GitHub Actions** dan berjalan otomatis pada setiap push ke branch `main`.
 
-Commit: Test AutoDeploy
+### 1️⃣ Continuous Integration (CI)
+
+#### ✅ Step: Install & Validate
+
+-   Menjalankan `composer install`
+-   Menjalankan perintah Laravel seperti:
+    -   `php artisan config:clear`
+    -   `php artisan test`
+-   Mengecek struktur file, dependensi, dan kelengkapan konfigurasi (`.env`, `phpunit.xml`, `Dockerfile`)
+
+#### ✅ Step: Unit Testing
+
+-   Pengujian fitur yang penting seperti:
+    -   Endpoint utama (`/`)
+    -   Pencarian lokasi & jadwal (`/praytime`)
+    -   Validasi output API dan status HTTP
+-   Dilakukan melalui Laravel Feature Test
+
+#### ✅ Step: Build Docker Image
+
+-   Dockerfile akan membangun image dari Laravel app
+-   Build otomatis saat ada perubahan kode
+
+---
+
+### 2️⃣ Continuous Deployment (CD)
+
+#### ✅ Step: Push Docker Image
+
+-   Image dikirim ke registry internal Render setelah build berhasil
+
+#### ✅ Step: Deploy ke Render
+
+-   Otomatis setelah image ter-push
+-   Menggunakan konfigurasi Laravel + Apache di dalam Docker
+-   Environment `APP_KEY`, `APP_ENV`, dan path `APP_URL` sudah ditentukan
+-   Folder permission (`storage/`, `bootstrap/cache/`) disesuaikan di Dockerfile
+
+---
+
+## 📂 Struktur Penting Repository
+
+-   .github/workflows/ci-cd.yml # CI/CD pipeline GitHub Actions
+-   Dockerfile # Build image Laravel
+-   .env # Environment Laravel
+-   phpunit.xml # Config untuk unit test
+-   tests/Feature/ # Berisi Laravel Feature Tests
+-   public/ # Entry point web
+-   app/Http/Controllers/ # PrayTimeController utama\
+
+---
+
+## 🧪 Contoh Feature Test
+
+```php
+public function test_main_page_accessible(): void
+{
+    $response = $this->get('/');
+    $response->assertStatus(200);
+    $response->assertSee('PrayTimeNow');
+}
+```
