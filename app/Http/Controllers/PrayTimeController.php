@@ -58,4 +58,11 @@ class PrayTimeController extends Controller
 
         return view('pray.index', compact('data', 'request'));
     }
+
+    public function getCities()
+    {
+        $path = resource_path('data/cities.json');
+        $cities = json_decode(file_get_contents($path), true);
+        return response()->json($cities);
+    }
 }
