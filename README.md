@@ -1,86 +1,187 @@
-# PrayTimeNow
+# 🕌 PrayTimeNow
 
-Aplikasi web ringan untuk menampilkan jadwal sholat harian berdasarkan lokasi dan tanggal input, tanpa login, instalasi, atau GPS. Dibangun dengan Laravel dan Bootstrap, serta didukung CI/CD pipeline menggunakan GitHub Actions dan Docker, serta di-deploy secara otomatis ke [Render](https://praytimenow.onrender.com/).
+![alt text](public/images/dashboard1.png)
+
+Aplikasi web ringan yang menyajikan jadwal sholat harian berdasarkan kota dan tanggal pilihan. Tidak memerlukan login, instalasi, atau GPS. Dibangun dengan Laravel, Bootstrap, dan pipeline CI/CD menggunakan GitHub Actions + Docker. Dihosting secara otomatis di [Render](https://praytimenow.onrender.com/).
+
+<a href="https://docs.google.com/document/d/1IJQIoLhO2UW8teHe6qSYFJGRPyrvBX8itr1tTfiAxg4/edit?usp=sharing"> > Detailed Documention. </a>
 
 ---
 
-## 🔧 Tools & Teknologi
+## 🌟 Fitur Utama
 
--   **Laravel 10+** (backend framework)
--   **Bootstrap 5** (frontend UI)
--   **Docker** (containerization)
--   **GitHub Actions** (CI/CD automation)
--   **Render.com** (deployment hosting)
--   **PHPUnit** (unit testing)
--   **API:**
-    -   [Aladhan API](https://aladhan.com/prayer-times-api) – untuk jadwal sholat
-    -   [Nominatim API](https://nominatim.org/) – untuk geocoding lokasi input
+-   🎯 **Pencarian Jadwal Sholat**
+    Cek waktu sholat 5 waktu berdasarkan lokasi dan tanggal input.
+
+-   🌐 **Dropdown Pilihan Kota**
+    Memuat nama-nama ibu kota di Indonesia secara otomatis dari file JSON.
+
+-   🌙 **Mode Gelap & Terang Otomatis**
+    Dapat diganti secara instan melalui toggle UI.
+
+-   🕒 **Countdown Sholat Selanjutnya**
+    Hitung mundur ke waktu sholat berikutnya secara real-time.
+
+-   ⚙️ **Tanpa Login / Registrasi**
+    Cukup buka website, masukkan kota dan tanggal, langsung tampil hasil.
+
+---
+
+## 🧱 Teknologi yang Digunakan
+
+### Backend
+
+-   **Laravel 10**
+-   **PHP 8.2**
+-   **Blade Template Engine**
+
+### Frontend
+
+-   **Bootstrap 5**
+-   **Bootstrap Icons**
+-   **Google Fonts: Poppins**
+
+### CI/CD & Deployment
+
+-   **Docker** – Image Laravel + Apache
+-   **GitHub Actions** – Workflow otomatis (CI test, build, deploy)
+-   **Render.com** – Cloud hosting untuk aplikasi
+
+### API yang digunakan
+
+-   **Aladhan API** – Untuk jadwal sholat
+-   **Nominatim API** – Untuk geocoding kota input
+
+---
+
+## 📂 Struktur Utama Repository
+
+```
+PrayTimeNow/
+├── app/
+│   └── Http/Controllers/PrayTimeController.php
+├── public/
+│   └── images/masjid.png
+├── resources/
+│   ├── views/pray/index.blade.php
+│   └── data/cities.json
+├── routes/web.php
+├── tests/Feature/PrayTimeFeatureTest.php
+├── Dockerfile
+├── .env
+├── phpunit.xml
+├── .github/
+│   └── workflows/ci-cd.yml
+└── README.md
+```
 
 ---
 
 ## 🚀 Alur CI/CD Pipeline
 
-CI/CD pipeline dikelola menggunakan **GitHub Actions** dan berjalan otomatis pada setiap push ke branch `main`.
+![alt text](public/images/pipeline.png)
 
-### 1️⃣ Continuous Integration (CI)
+### 🧪 Continuous Integration (CI)
 
-#### ✅ Step: Install & Validate
+Setiap push ke branch `main` akan memicu:
 
--   Menjalankan `composer install`
--   Menjalankan perintah Laravel seperti:
-    -   `php artisan config:clear`
-    -   `php artisan test`
--   Mengecek struktur file, dependensi, dan kelengkapan konfigurasi (`.env`, `phpunit.xml`, `Dockerfile`)
+-   Install dependencies dengan `composer install`
+-   Jalankan Laravel Feature Test (`php artisan test --testsuite=Feature`)
+-   Validasi environment file, key, dan Laravel version
 
-#### ✅ Step: Unit Testing
+### 🏗️ Continuous Deployment (CD)
 
--   Pengujian fitur yang penting seperti:
-    -   Endpoint utama (`/`)
-    -   Pencarian lokasi & jadwal (`/praytime`)
-    -   Validasi output API dan status HTTP
--   Dilakukan melalui Laravel Feature Test
-
-#### ✅ Step: Build Docker Image
-
--   Dockerfile akan membangun image dari Laravel app
--   Build otomatis saat ada perubahan kode
+-   Push image ke Render
+-   Menjalankan container Laravel
+-   Otomatis melakukan deploy dari branch utama setelah test sukses
 
 ---
 
-### 2️⃣ Continuous Deployment (CD)
+## 🧪 Testing
 
-#### ✅ Step: Push Docker Image
+Pengujian dilakukan melalui Laravel Feature Test (`tests/Feature/PrayTimeFeatureTest.php`), meliputi:
 
--   Image dikirim ke registry internal Render setelah build berhasil
+-   Akses ke homepage (`/`)
+-   Validasi form input (kota dan tanggal)
+-   Simulasi input valid dan pengecekan konten respon
 
-#### ✅ Step: Deploy ke Render
-
--   Otomatis setelah image ter-push
--   Menggunakan konfigurasi Laravel + Apache di dalam Docker
--   Environment `APP_KEY`, `APP_ENV`, dan path `APP_URL` sudah ditentukan
--   Folder permission (`storage/`, `bootstrap/cache/`) disesuaikan di Dockerfile
-
----
-
-## 📂 Struktur Penting Repository
-
--   .github/workflows/ci-cd.yml # CI/CD pipeline GitHub Actions
--   Dockerfile # Build image Laravel
--   .env # Environment Laravel
--   phpunit.xml # Config untuk unit test
--   tests/Feature/ # Berisi Laravel Feature Tests
--   public/ # Entry point web
--   app/Http/Controllers/ # PrayTimeController utama\
-
----
-
-## 🧪 Contoh Feature Test
+Contoh:
 
 ```php
-public function test_main_page_accessible(): void
+public function homepage_is_accessible()
 {
     $response = $this->get('/');
     $response->assertStatus(200);
-    $response->assertSee('PrayTimeNow');
+    $response->assertSeeText('Cari Jadwal');
 }
 ```
+
+---
+
+## ⚙️ Konfigurasi Environment
+
+### 📄 `.env` (Production)
+
+```env
+APP_NAME=PrayTimeNow
+APP_ENV=local
+APP_KEY=base64:xxxxxxxxxxxxxx
+APP_DEBUG=true
+APP_URL=https://praytimenow.onrender.com
+
+DB_CONNECTION=none
+SESSION_DRIVER=cookie
+CACHE_DRIVER=array
+QUEUE_CONNECTION=sync
+```
+
+### 📄 `phpunit.xml` (Testing)
+
+```xml
+<env name="APP_ENV" value="testing"/>
+<env name="DB_CONNECTION" value="sqlite"/>
+<env name="DB_DATABASE" value=":memory:"/>
+<env name="SESSION_DRIVER" value="array"/>
+<env name="CACHE_DRIVER" value="array"/>
+```
+
+---
+
+## 🌐 Demo Aplikasi
+
+🖥️ URL: [https://praytimenow.onrender.com](https://praytimenow.onrender.com)
+
+---
+
+## 💻 Cara Menjalankan Lokal
+
+```bash
+# Clone project
+git clone https://github.com/mas663/PrayTimeNow.git
+cd PrayTimeNow
+
+# Jalankan Docker
+docker build -t praytimenow .
+docker run -p 8080:80 praytimenow
+```
+
+---
+
+## 🧩 Catatan Pengembangan
+
+-   ✅ Sinkronisasi APP_KEY di `.env` dan `phpunit.xml`
+-   ✅ Perbaikan permission Laravel (`chmod storage`, `chown www-data`)
+-   ✅ Penyesuaian `Dockerfile` untuk build dan config
+-   ✅ Pembuatan endpoint `/debug` untuk validasi APP config saat runtime
+-   ✅ Penambahan dropdown dinamis kota dari file JSON (`cities.json`)
+
+---
+
+## 🤝 Kontributor
+
+Kelompok 8 - PSO \[B]:
+
+-   Rosdiani Adiningsih (5026221101)
+-   Mohammad Affan Shofi (5026221134)
+-   Alexander Satryo Pinandhito (5026221135)
+-   Airlangga Bayu Taqwa (5026221204)
