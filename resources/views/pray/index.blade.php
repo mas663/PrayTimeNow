@@ -286,7 +286,7 @@
 
 <script>
     const toggle = document.getElementById('modeToggle');
-    const isDark = localStorage.getItem('darkMode') === 'true';
+    const isDark = localStorage.getItem('darkMode') === 'false';
 
     if (isDark) document.body.classList.add('dark-mode');
     toggle.checked = isDark;
