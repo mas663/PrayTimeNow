@@ -223,10 +223,6 @@
     {{-- Footer --}}
     <footer>
         <small>&copy; {{ date('Y') }} PrayTimeNow | by Group-8_PSO [B]</small>
-        <div class="mt-2">
-            <a href="https://www.its.ac.id/" class="text-white me-3"><i class="bi bi-building-fill"></i></a>
-            <a href="https://github.com/mas663/PrayTimeNow.git" class="text-white"><i class="bi bi-github"></i></a>
-        </div>
     </footer>
 </div>
 
