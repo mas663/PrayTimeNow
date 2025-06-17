@@ -220,7 +220,9 @@
                         @csrf
                         <div class="mb-3">
                             <label for="city" class="form-label">Kota</label>
-                            <input type="text" id="city" name="city" class="form-control" required value="{{ old('city', $request->city ?? '') }}">
+                            <select id="city" name="city" class="form-select" required>
+                                <option value="">-- Pilih Kota --</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Tanggal</label>
@@ -357,6 +359,24 @@
 
     updateCountdown();
 @endif
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const select = document.getElementById("city");
+    const currentValue = "{{ old('city', $request->city ?? '') }}";
+
+    fetch('/data/cities.json')
+        .then(res => res.json())
+        .then(data => {
+            data.forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                if (city === currentValue) option.selected = true;
+                select.appendChild(option);
+            });
+        });
+});
 </script>
 
 </body>
