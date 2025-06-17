@@ -220,9 +220,8 @@
                         @csrf
                         <div class="mb-3">
                             <label for="city" class="form-label">Kota</label>
-                            <select id="city" name="city" class="form-select" required>
-                                <option value="">-- Pilih Kota --</option>
-                            </select>
+                            <label for="city" class="form-label">Kota</label>
+                            <input type="text" id="city" name="city" class="form-control" required value="{{ old('city', $request->city ?? '') }}">
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Tanggal</label>
