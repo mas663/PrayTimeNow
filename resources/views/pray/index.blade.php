@@ -116,63 +116,9 @@
         background-color: #574c2a;
     }
 
-    body.dark-mode {
-    background: linear-gradient(to bottom, rgba(34, 34, 34, 0.92), rgba(0, 0, 0, 0.95)),
-                url('{{ asset('images/masjid3.png') }}') no-repeat center center fixed;
-    background-size: 120% auto;
-    color: white;
-    }
-
-    body.dark-mode .hero {
-    background: linear-gradient(135deg, #333 20%, #444 50%, #111 100%);
-    color: white;
-    }
-
-    body.dark-mode .form-box {
-        background-color: #444;
-        color: white;
-    }
-
-    body.dark-mode .card-custom {
-        background-color: #2e2e2e;
-        color: white;
-    }
-
-    body.dark-mode .card-custom .text-dark {
-    color: white !important;
-    }
-
-    body.dark-mode .text-muted {
-    color: #ccc !important;
-    }
-
-
-    body.dark-mode footer {
-        background: #222;
-        color: #ccc;
-    }
-
-    body.dark-mode .custom-btn {
-        background-color: #666;
-        color: white;
-    }
-
-    body.dark-mode .custom-btn:hover {
-        background-color: #555;
-    }
-
-    body.dark-mode .bi {
-        color: white !important;
-    }
-
     .countdown-text {
     color: #ffffff;
     }
-
-    body.dark-mode .countdown-text {
-        color: #ffffff;
-    }
-
     </style>
 
 </head>
@@ -283,19 +229,6 @@
         </div>
     </footer>
 </div>
-
-<script>
-    const toggle = document.getElementById('modeToggle');
-    const isDark = localStorage.getItem('darkMode') === 'false';
-
-    if (isDark) document.body.classList.add('dark-mode');
-    toggle.checked = isDark;
-
-    toggle.addEventListener('change', function () {
-        document.body.classList.toggle('dark-mode');
-        localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
-    });
-</script>
 
 <script>
 @if (isset($data))
