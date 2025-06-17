@@ -1,11 +1,11 @@
-name: Laravel CI/CD
+name: Laravel CI
 
 on:
   push:
     branches: [main]
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,29 +14,22 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.1"
+          php-version: "8.2"
 
+        # CI Build
       - name: Install Dependencies
         run: composer install --no-progress --prefer-dist
 
-      - name: Run Laravel Validation
+      - name: Validate Laravel Installation
         run: php artisan --version
 
-      - name: Docker Build
-        run: docker build -t praytimenow .
+        # CI Tests
+      - name: Run Feature Tests Only
+        run: php artisan test --testsuite=Feature
 
-      - name: Login to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      - name: Push to Azure Container Registry
+        # CI Deploy
+      - name: Deploy to Render
+        env:
+          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
-          docker tag praytimenow myregistry.azurecr.io/praytimenow
-          docker push myregistry.azurecr.io/praytimenow
-
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: "PrayTimeNowApp"
-          images: "myregistry.azurecr.io/praytimenow"
+          curl -X POST $RENDER_DEPLOY_HOOK_URL
