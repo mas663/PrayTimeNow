@@ -182,15 +182,6 @@
 
     {{-- Hero --}}
     <div class="hero position-relative text-center">
-        <!-- Toggle Mode -->
-        <div class="position-absolute top-0 end-0 m-2 d-flex align-items-center">
-            <i class="bi bi-brightness-high-fill me-2"></i>
-            <div class="form-check form-switch m-0">
-                <input class="form-check-input" type="checkbox" id="modeToggle">
-            </div>
-            <i class="bi bi-moon-stars-fill ms-2"></i>
-        </div>
-
         <!-- Judul -->
         <h1 class="display-5 fw-bold">🕌 PrayTimeNow</h1>
         <p class="lead">Cek Jadwal Sholat Akurat Berdasarkan Lokasi dan Tanggal</p>
@@ -220,9 +211,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="city" class="form-label">Kota</label>
-                            <select id="city" name="city" class="form-select" required>
-                                <option value="">-- Pilih Kota --</option>
-                            </select>
+                            <input type="text" id="city" name="city" class="form-control" required value="{{ old('city', $request->city ?? '') }}">
                         </div>
                         <div class="mb-3">
                             <label for="date" class="form-label">Tanggal</label>
